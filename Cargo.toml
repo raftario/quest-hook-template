@@ -1,0 +1,20 @@
+[package]
+name = "{{project-name}}"
+version = "0.1.0"
+authors = ["{{authors}}"]
+edition = "2018"
+
+[package.metadata.ndk]
+targets = ["arm64-v8a"]
+platform = 24
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+quest_hook = { git = "https://github.com/StackDoubleFlow/quest-hook-rs.git" }
+tracing-android = { git = "https://github.com/raftario/tracing-android.git" }
+
+# Rust makes dependencies really easy
+# Just search crates.io for what you need and add it here, chances are it'll work as is
+# No complicated build scripts and hours of googling required
