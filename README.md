@@ -1,6 +1,6 @@
 # quest-hook-template
 
-A template for writing mods Quest il2cpp games in Rust using [`quest-hook`](https://github.com/StackDoubleFlow/quest-hook-rs).
+A template for writing mods for Quest il2cpp games in Rust using [`quest-hook`](https://github.com/StackDoubleFlow/quest-hook-rs).
 
 ## Using this template
 
