@@ -1,0 +1,5 @@
+[placeholders.unity]
+type = "string"
+prompt = "Which version of Unity should be used?"
+choices = ["unity2019", "unity2018"]
+default = "unity2019"

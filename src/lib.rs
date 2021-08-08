@@ -1,30 +1,21 @@
-use quest_hook::{hook, libil2cpp::Il2CppObject};
-use tracing_android::tracing::{debug, info};
+use quest_hook::hook;
+use quest_hook::libil2cpp::{Il2CppObject, Il2CppString};
+use tracing::debug;
 
-// We uses procedural macros to generate the hook's glue code at compile time
-// which lets us keep the syntax nice and clean, and leaves less rooms for typos
-#[hook("", "MainSettingsModelSO", "OnEnable")]
-fn on_enable(this: &mut Il2CppObject) {
-    info!("Hello, World!");
+#[no_mangle]
+pub extern "C" fn setup() {
+    quest_hook::setup(env!("CARGO_PKG_NAME"));
+}
 
-    // The logging macros can format anything that implements the required traits
-    debug!("The class of `this` is {}", this.class());
+#[hook("UnityEngine.SceneManagement", "SceneManager", "SetActiveScene")]
+fn set_active_scene(scene: &mut Il2CppObject) -> bool {
+    let name: &Il2CppString = scene.invoke("get_name", ()).unwrap();
+    debug!("Hello, {}!", name);
 
-    // Calls to the original C# method use the previously generated glue code
-    on_enable.original(this);
+    set_active_scene.original(scene)
 }
 
 #[no_mangle]
 pub extern "C" fn load() {
-    // Setup a subscriber to send our logs to Android
-    // Here we setup the tag to be the same as the package name from Cargo.toml,
-    // but we could customise our logger as much as we want
-    tracing_android::subscriber(env!("CARGO_PKG_NAME")).init();
-
-    // Hooks are always type checked at installation
-    // The installation fails if the method signatures don't match
-    debug!("Installing hook for MainSettingsModelSO.OnEnable...");
-    on_enable.install();
-
-    debug!("Installed hooks!");
+    set_active_scene.install().unwrap();
 }

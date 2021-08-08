@@ -25,4 +25,4 @@ To build mods, you will need:
 
 - Use `cargo ndk build` to build the mod. Make sure to use `cargo ndk build --release` when releasing publically to turn on optimisations and keep everyone's framerate smooth.
 - Use `cargo ndk clippy` to check for warnings or errors in your code. If you use VSCode with the rust-analyzer extension, this will be integrated in the editor.
-- Use `cargo ndk doc --open` to generate interactive documentation for your mod and its dependencies and open it in your default browser. Very useful to find everything `quest-hook` is capable of easily.
+- Use `cargo ndk doc --open` to generate interactive documentation for your mod and its dependencies and open it in your default browser.
