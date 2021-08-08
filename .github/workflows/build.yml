@@ -1,0 +1,46 @@
+name: Build
+on: push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: aarch64-linux-android
+          profile: minimal
+          override: true
+      - uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r22
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/
+            target/
+          key: build-${{ hashFiles('**/Cargo.lock') }}
+
+      - uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: cargo-ndk
+
+      - name: Build the mod
+        uses: actions-rs/cargo@v1
+        with:
+          command: ndk
+          args: build --release
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+      - name: Upload the build
+        uses: actions/upload-artifact@v2
+        with:
+          name: {{project-name}}
+          path: target/target/aarch64-linux-android/release/lib{{crate_name}}.so
