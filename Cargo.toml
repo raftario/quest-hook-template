@@ -16,4 +16,4 @@ tracing = "0.1"
 
 [dependencies.quest_hook]
 git = "https://github.com/StackDoubleFlow/quest-hook-rs.git"
-eatures = ["{{unity}}"]
+features = ["{{unity}}"]
